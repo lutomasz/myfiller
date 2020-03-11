@@ -14,7 +14,9 @@
 
 int			init_utils(t_struct *u, char *map)
 {
-	u->fd = open(map, O_RDONLY);
+	map = 0;
+	u->fd = 0;
+	//u->fd = open(map, O_RDONLY);
 	u->map_w = 0;
 	u->map_h = 0;
 	u->first_x_on = 0;

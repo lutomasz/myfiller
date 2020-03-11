@@ -146,6 +146,6 @@ int				is_not_enclosed(t_struct *u, int *is_opp_enclosed);
 void			center_borders(t_struct *u, int s_x, int s_y);
 void			print_sol(t_struct *u);
 int				find_smallest_val(t_struct *u, int iter);
-int			h_map(t_struct *u);
+int				h_map(t_struct *u);
 
 #endif

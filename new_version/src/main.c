@@ -81,24 +81,31 @@ int		init_parse(t_struct *u, int *i, char *map)
 	return (1);
 }
 
-/*
-** main with infinite loop
-*/
-
 int		main2(t_struct *u, int *is_opp_enclosed, int *i, char *argv)
 {
 	time_t start, end;
 	if (init_parse(u, i, argv) == -1)
+		return (-1);
+	if (!(u->possible_pos = malloc_2d_int_arr(u->possible_pos,
+			u->map_h * u->map_w, 3)))
 		return (-1);
 	set_me_his(u);
 	set_players_pos(u);
 	start = clock();
 	*is_opp_enclosed = h_map(u);
 	end = clock();
-	printf("RT read:	%f\n", (float)(end - start) / CLOCKS_PER_SEC);
-	printf("%d\n", *is_opp_enclosed);
+	//printf("RT read:	%f\n", (float)(end - start) / CLOCKS_PER_SEC);
+	//printf("%d\n", *is_opp_enclosed);
 	u->num_me = set_my_pos(u);
 	u->num_me = trim_pos(u);
+	if (!(u->smallest_val = (int*)(malloc(sizeof(int) * u->num_me))))
+		return (-1);
+	select_pos(u);
+	u->placed_one = 0;
+	if (place_piece(u, is_opp_enclosed))
+		print_sol(u);
+	else
+		return (0);
 	return (1);
 }
 
@@ -107,23 +114,25 @@ int		main(int argc, char **argv)
 	t_struct	u;
 	static int	i;
 	int			is_opp_enclosed;
+	int 		ret;
 
+	ret = 1;
 	argc = 0;
 	i = 0;
 	is_opp_enclosed = 0;
 	u.map_h = 0;
-	// while (1)
-	// {
-	main2(&u, &is_opp_enclosed, &i, argv[1]);
+	while (1)
+	{
+		ret = main2(&u, &is_opp_enclosed, &i, argv[1]);
 	//printf("%s\n", u.map[0]);
 
-	// print_int2(u.h_map, u.map_w, u.map_h);
+	//print_int2(u.h_map, u.map_w, u.map_h);
 	// ft_print_tab2(u.map);
-	// 	if (ret != 1)
-	// 		break ;
-	// }
-	// free_all(&u, 0);
-	// if (u.h_map != 0)
-	// 	free_double_int(u.h_map, u.map_h);
+		if (ret != 1)
+			break ;
+	}
+	free_all(&u, 0);
+	if (u.h_map != 0)
+		free_double_int(u.h_map, u.map_h);
 	return (0);
 }

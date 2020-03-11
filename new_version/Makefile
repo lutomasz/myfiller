@@ -13,7 +13,7 @@
 NAME = players/lukasz-god.filler
 
 SRC_NAME = main.c parse_stuff.c utils.c map_parse.c piece_parse.c manage_memory.c \
-			heatmap.c utils2.c
+			heatmap.c utils2.c strategy.c strategy1.c strategy2.c strategy3.c other_place.c
 
 SRC_PATH = src/
 SRC = $(addprefix $(SRC_PATH), $(SRC_NAME))
